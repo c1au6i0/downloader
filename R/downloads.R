@@ -22,7 +22,7 @@ download_file <- function(conn, dest_path, overwrite = FALSE, ...) {
   tryCatch(
     {
       utils::download.file(url = conn, destfile = path_out, quite = FALSE, ...)
-      return(list(url_file = conn, file = basename(conn), out = "success", details = NA))
+      return(list(url_file = conn, file = basename(conn), out = "success", details = "success"))
     },
     error = function(cond) {
       cond <- gsub("download.file(url = conn, destfile = path_out, quite = FALSE, ...)", "", cond)
@@ -65,9 +65,8 @@ retry_download_ <- function(conn, dest_path, max_attempts, sleep_time, ...) {
       ret_eval <- download_file(conn, dest_path, ...)
       cli::cli_alert_info(ret_eval$details)
       cli::cli_end()
-
       # Stop if file already present
-      if (ret_eval$detail == "file already present") {
+      if (ret_eval$details == "file already present") {
         attempts <- max_attempts
       } else {
         attempts <- attempts + 1
