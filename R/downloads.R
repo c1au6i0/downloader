@@ -89,6 +89,7 @@ retry_download_ <- function(conn, dest_path, max_attempts, sleep_time, ...) {
 #' @param sleep_time How many second to wait before retring.
 #' @param workers If more than 1, it uses `{furrr}` to parallelize the downloads.
 #' @param ... Any arguments of `download.file`.
+#' @export
 retry_download <- function(conn, dest_path, max_attempts, sleep_time, workers = 1, ...) {
 
   if(length(conn) == 1) {
