@@ -1,0 +1,6 @@
+args==0.1.0
+Atria==0.0.9
+clint==0.5.1
+coverage==7.0.0
+mamba==0.11.2
+numpy==1.24.0
