@@ -1,4 +1,4 @@
-#' extract_hypelinks
+#' extract_hyperlinks
 #'
 #' Use XML to extract connlinks and generate a list
 #'
@@ -9,11 +9,11 @@ extract_hyperlinks <- function(path_file) {
   zip_file <- sub("xlsx", "zip", path_file)
 
   file.copy(from = path_file, to = zip_file)
-  utils::unzip(zip_file, exdir = here::here("data", "xl_parse"))
-  xml <- XML::xmlParse(here::here("data", "xl_parse", "xl", "worksheets", "sheet1.xml"))
+  utils::unzip(zip_file, exdir = tempdir())
+  xml <- XML::xmlParse(file.path(tempdir(), "xl", "worksheets", "sheet1.xml"))
   hyperlinks <- XML::xpathApply(xml, "//x:hyperlink/@display", namespaces = "x")
 
-  fs::dir_delete(here::here("data", "xl_parse"))
+  fs::dir_delete(tempdir())
   fs::file_delete(zip_file)
   as.character(hyperlinks)
 }

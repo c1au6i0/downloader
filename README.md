@@ -1,30 +1,19 @@
----
-output: github_document
----
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
-
-```{r, include = FALSE}
-knitr::opts_chunk$set(
-  collapse = TRUE,
-  comment = "#>",
-  fig.path = "man/figures/README-",
-  out.width = "100%"
-)
-```
 
 # downloader
 
 <!-- badges: start -->
-
 <!-- badges: end -->
 
 An improved `download.file` function that:
 
--   retries to download the file multiple times with or without a delay.
--   checks if the file to download already exists in the path and decide if overwrite it.
--   can parallel download.
--   provides a full log with info regarding warning and errors of each download.
+- retries to download the file multiple times with or without a delay.
+- checks if the file to download already exists in the path and decide
+  if overwrite it.
+- can parallel download.
+- provides a full log with info regarding warning and errors of each
+  download.
 
 ## Installation
 

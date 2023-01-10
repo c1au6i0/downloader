@@ -1,30 +1,10 @@
-#' extract_hypelinks
-#'
-#' Use XML to extract connlinks and generate a list
-#'
-#' @param path_file Path to xlsx file with hyperlinks.
-#' @export
-extract_hyperlinks <- function(path_file) {
-  # https://stackoverflow.com/questions/24149821/extract-hyperlink-from-excel-file-in-r
-  zip_file <- sub("xlsx", "zip", path_file)
-
-  file.copy(from = path_file, to = zip_file)
-  utils::unzip(zip_file, exdir = here::here("data", "xl_parse"))
-  xml <- XML::xmlParse(here::here("data", "xl_parse", "xl", "worksheets", "sheet1.xml"))
-  hyperlinks <- XML::xpathApply(xml, "//x:hyperlink/@display", namespaces = "x")
-
-  fs::dir_delete(here::here("data", "xl_parse"))
-  fs::file_delete(zip_file)
-  as.character(hyperlinks)
-}
-
 #' download hyperlink
 #'
 #' Use download.file to download from hyperlink
 #'
 #' @param conn Url.
 #' @param dest_path Folder where to save files.
-#' @param overwrite
+#' @param overwrite If TRUE overwrite the file.
 #' @param ... Any arguments of `download.file`.
 #' @export
 download_file <- function(conn, dest_path, overwrite = FALSE, ...) {
@@ -41,7 +21,7 @@ download_file <- function(conn, dest_path, overwrite = FALSE, ...) {
 
   tryCatch(
     {
-      download.file(url = conn, destfile = path_out, quite = FALSE, ...)
+      utils::download.file(url = conn, destfile = path_out, quite = FALSE, ...)
       return(list(url_file = conn, file = basename(conn), out = "success", details = NA))
     },
     error = function(cond) {
@@ -63,6 +43,7 @@ download_file <- function(conn, dest_path, overwrite = FALSE, ...) {
 #' @param dest_path Folder where to save files.
 #' @param max_attempts How many times to try to download.
 #' @param sleep_time How many second to wait before retring.
+#' @param ... Any `download.file` argument.
 retry_download_ <- function(conn, dest_path, max_attempts, sleep_time, ...) {
   # Modified from this
   # https://stackoverflow.com/questions/63340463/download-files-until-it-works
