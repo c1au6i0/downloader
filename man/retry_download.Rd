@@ -4,7 +4,7 @@
 \alias{retry_download}
 \title{retry download}
 \usage{
-retry_download(conn, dest_path, max_attempts, sleep_time, workers = 1, ...)
+retry_download(conn, dest_path, max_attempts, sleep_time, ...)
 }
 \arguments{
 \item{conn}{Vectors of connections (urls).}
@@ -14,8 +14,6 @@ retry_download(conn, dest_path, max_attempts, sleep_time, workers = 1, ...)
 \item{max_attempts}{How many times to try to download.}
 
 \item{sleep_time}{How many second to wait before retring.}
-
-\item{workers}{If more than 1, it uses `{furrr}` to parallelize the downloads.}
 
 \item{...}{Any arguments of `download.file`.}
 }

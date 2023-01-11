@@ -86,10 +86,9 @@ retry_download_ <- function(conn, dest_path, max_attempts, sleep_time, ...) {
 #' @param dest_path Folder where to save files.
 #' @param max_attempts How many times to try to download.
 #' @param sleep_time How many second to wait before retring.
-#' @param workers If more than 1, it uses `{furrr}` to parallelize the downloads.
 #' @param ... Any arguments of `download.file`.
 #' @export
-retry_download <- function(conn, dest_path, max_attempts, sleep_time, workers = 1, ...) {
+retry_download <- function(conn, dest_path, max_attempts, sleep_time, ...) {
 
   if(length(conn) == 1) {
 
@@ -101,21 +100,7 @@ retry_download <- function(conn, dest_path, max_attempts, sleep_time, workers = 
   }
 
   if(length(conn) > 1) {
-    if(workers == 1) {
-      out <- purrr::map_dfr(conn, retry_download_,
-                            dest_path = dest_path,
-                            max_attempts = max_attempts,
-                            sleep_time = sleep_time,
-                            ...
-      )
-    }
-    if(workers > 1) {
-      future::plan(future::multisession, workers = workers)
 
-      available_cores <- parallelly::availableCores()
-      if (workers == available_cores) {
-        cli::cli_alert_danger("You are using as many workers as your cores.")
-      }
       out <- furrr::future_map_dfr(conn,
                                    retry_download_,
                                    dest_path = dest_path,
@@ -124,7 +109,6 @@ retry_download <- function(conn, dest_path, max_attempts, sleep_time, workers = 
                                    ...
                                    )
     }
-  }
 
   out
 }
