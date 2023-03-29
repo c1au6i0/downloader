@@ -101,13 +101,14 @@ retry_download <- function(conn, dest_path, max_attempts, sleep_time, ...) {
 
   if(length(conn) > 1) {
 
-      out <- furrr::future_map_dfr(conn,
+      out <- lapply(conn,
                                    retry_download_,
                                    dest_path = dest_path,
                                    max_attempts = max_attempts,
                                    sleep_time = sleep_time,
                                    ...
                                    )
+      out <-  do.call(rbind, out)
     }
 
   out

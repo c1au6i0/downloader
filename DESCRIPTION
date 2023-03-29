@@ -9,13 +9,9 @@ License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
 Imports: 
-    callr,
     cli,
     fs,
-    furrr,
-    future,
-    parallelly,
-    purrr
+    XML
 Suggests: 
     testthat (>= 3.0.0)
 Config/testthat/edition: 3
