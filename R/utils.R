@@ -20,3 +20,16 @@ extract_hyperlinks <- function(path_file) {
   unlink(zip_file)
   as.character(hyperlinks)
 }
+
+
+
+#' Checked required arg
+#'
+#' @param required_arg Vector of required arguments.
+#' @param passed Vector of passed arguments.
+check_required_args <- function(required_arg, passed) {
+
+  required_arg_missing <- required_arg[!required_arg %in% passed]
+
+  if (length(required_arg_missing) != 0) cli::cli_abort("The argument {.field {required_arg_missing}} are required.")
+}

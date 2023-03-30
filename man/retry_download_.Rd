@@ -13,9 +13,12 @@ retry_download_(conn, dest_path, max_attempts, sleep_time, ...)
 
 \item{max_attempts}{How many times to try to download.}
 
-\item{sleep_time}{How many second to wait before retring.}
+\item{sleep_time}{How many second to wait before retrying.}
 
 \item{...}{Any `download.file` argument.}
+
+\item{overwrite}{If TRUE overwrite existing file without throwing an error.
+FALSE by default.}
 }
 \description{
 Use download_files, try to download from links and save stout or err in dataframe.

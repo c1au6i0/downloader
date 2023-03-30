@@ -42,11 +42,20 @@ download_file <- function(conn, dest_path, overwrite = FALSE, ...) {
 #' @param conn Url.
 #' @param dest_path Folder where to save files.
 #' @param max_attempts How many times to try to download.
-#' @param sleep_time How many second to wait before retring.
+#' @param sleep_time How many second to wait before retrying.
+#' @param overwrite If TRUE overwrite existing file without throwing an error.
+#'    FALSE by default.
 #' @param ... Any `download.file` argument.
 retry_download_ <- function(conn, dest_path, max_attempts, sleep_time, ...) {
   # Modified from this
   # https://stackoverflow.com/questions/63340463/download-files-until-it-works
+
+
+  passed <- names(as.list(match.call())[-1])
+  check_required_args(required_arg = c("conn", "dest_path"), passed)
+
+  if(length(conn) == 0) cli::cli_abort("{.field conn} argument cannot be empty.")
+
   attempts <- 0
   file_name <- basename(conn)
   ret_eval <- list(url_file = conn, file = file_name, out = 0, details = NA)
@@ -88,7 +97,8 @@ retry_download_ <- function(conn, dest_path, max_attempts, sleep_time, ...) {
 #' @param sleep_time How many second to wait before retring.
 #' @param ... Any arguments of `download.file`.
 #' @export
-retry_download <- function(conn, dest_path, max_attempts, sleep_time, ...) {
+retry_download <- function(conn, dest_path, max_attempts = 1, sleep_time = 0, ...) {
+
 
   if(length(conn) == 1) {
 
@@ -111,7 +121,7 @@ retry_download <- function(conn, dest_path, max_attempts, sleep_time, ...) {
       out <-  do.call(rbind, out)
     }
 
-  out
+  as.data.frame(out)
 }
 
 
