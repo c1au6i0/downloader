@@ -54,8 +54,7 @@ retry_download_ <- function(conn, dest_path, max_attempts, sleep_time, timeout_u
   op <- options(timeout = timeout_user)
   withr::defer(options(op))
 
-  passed <- names(as.list(match.call())[-1])
-  check_required_args(required_arg = c("conn", "dest_path"), passed)
+  check_required_args(required_arg = c("conn", "dest_path"))
 
   if(length(conn) == 0) cli::cli_abort("{.field conn} argument cannot be empty.")
 
