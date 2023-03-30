@@ -4,7 +4,7 @@
 \alias{retry_download}
 \title{retry download}
 \usage{
-retry_download(conn, dest_path, max_attempts, sleep_time, ...)
+retry_download(conn, dest_path, max_attempts = 1, sleep_time = 0, ...)
 }
 \arguments{
 \item{conn}{Vectors of connections (urls).}
@@ -13,9 +13,11 @@ retry_download(conn, dest_path, max_attempts, sleep_time, ...)
 
 \item{max_attempts}{How many times to try to download.}
 
-\item{sleep_time}{How many second to wait before retring.}
+\item{sleep_time}{How many second to wait before retrying.}
 
 \item{...}{Any arguments of `download.file`.}
+
+\item{timeout_user}{Seconds after witch the download will be stopped. Default is 3600 sec.}
 }
 \description{
 Use download_files, try to download from links and save stout or err in dataframe.

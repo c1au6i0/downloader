@@ -4,7 +4,14 @@
 \alias{retry_download_}
 \title{retry download internal}
 \usage{
-retry_download_(conn, dest_path, max_attempts, sleep_time, ...)
+retry_download_(
+  conn,
+  dest_path,
+  max_attempts,
+  sleep_time,
+  timeout_user = 3600,
+  ...
+)
 }
 \arguments{
 \item{conn}{Url.}
@@ -14,6 +21,8 @@ retry_download_(conn, dest_path, max_attempts, sleep_time, ...)
 \item{max_attempts}{How many times to try to download.}
 
 \item{sleep_time}{How many second to wait before retrying.}
+
+\item{timeout_user}{Seconds after witch the download will be stopped.}
 
 \item{...}{Any `download.file` argument.}
 

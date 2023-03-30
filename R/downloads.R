@@ -45,11 +45,14 @@ download_file <- function(conn, dest_path, overwrite = FALSE, ...) {
 #' @param sleep_time How many second to wait before retrying.
 #' @param overwrite If TRUE overwrite existing file without throwing an error.
 #'    FALSE by default.
+#' @param timeout_user Seconds after witch the download will be stopped.
 #' @param ... Any `download.file` argument.
-retry_download_ <- function(conn, dest_path, max_attempts, sleep_time, ...) {
+retry_download_ <- function(conn, dest_path, max_attempts, sleep_time, timeout_user = 3600, ...) {
   # Modified from this
   # https://stackoverflow.com/questions/63340463/download-files-until-it-works
 
+  op <- options(timeout = timeout_user)
+  withr::defer(options(op))
 
   passed <- names(as.list(match.call())[-1])
   check_required_args(required_arg = c("conn", "dest_path"), passed)
@@ -94,7 +97,8 @@ retry_download_ <- function(conn, dest_path, max_attempts, sleep_time, ...) {
 #' @param conn Vectors of connections (urls).
 #' @param dest_path Folder where to save files.
 #' @param max_attempts How many times to try to download.
-#' @param sleep_time How many second to wait before retring.
+#' @param sleep_time How many second to wait before retrying.
+#' @param timeout_user Seconds after witch the download will be stopped. Default is 3600 sec.
 #' @param ... Any arguments of `download.file`.
 #' @export
 retry_download <- function(conn, dest_path, max_attempts = 1, sleep_time = 0, ...) {
